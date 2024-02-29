@@ -3,28 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="stylesheet" href="./css/bootstrap.min.css"> <!-- Bootswatch Slate Theme-->
+    <link rel="icon" type="image/png" sizes="32x32" href="./img/GestorIP.ico"/>
+    <link rel="stylesheet" href="./css/bootstrap.min.css"> <!-- ! Bootswatch Slate Theme-->
     <link rel="stylesheet" href="./css/style.css">
     <title>ToDo App</title>
 </head>
 <body class="flex">
-    <form class="w-96 h-72 mt-12 ml-12 p-3 border-2 border-bs-info rounded-lg" id="formulario">
+    <form class="w-2/4 h-72 mt-12 ml-12 p-3 border-2 border-bs-info rounded-lg" id="formulario">
         <div class="mb-3">
-          <label for="txtTarea" class="form-label">Tarea</label>
-          <input type="text" class="form-control" id="txtTarea" aria-describedby="emailHelp">
+          <label for="txtTareaTitulo" class="form-label">Tarea</label><span class="mx-2" id="lblIdTarea"></span>
+          <input type="text" class="form-control" id="txtTareaTitulo">
         </div>
 
         <div class="form-floating mb-3">
-            <textarea class="form-control" placeholder="Leave a comment here" id="txtDescripcion" style="height: 100px"></textarea>
-            <label for="txtDescripcion">Descripción</label>
+            <textarea class="form-control" placeholder="Leave a comment here" id="txtTareaDescripcion" style="height: 100px"></textarea>
+            <label for="txtTareaDescripcion">Descripción</label>
         </div>
 
-        <button type="submit" class="btn btn-info">Submit</button>
+        <button type="submit" class="btn btn-info">Guardar</button>
+
       </form>
 
-      <div class="w-96 h-96 mt-12 ml-12 border-2 border-bs-info rounded-lg" id="lista-tareas"></div>
-
-<script src="./app.js"></script>
+      <div class="w-2/4 mt-12 m-12" id="txtListaTareas"></div>
+   
+  <script src="./app.js"></script>
 </body>
 </html>
