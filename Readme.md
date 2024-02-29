@@ -16,7 +16,7 @@ The practice that I used to follow when I was learning was this:
   - Try to build the same project at least 2 to 3 times on your own without looking at the video. If you get stuck, refer to the section of the video where the instructor builds that part of the project.
   - Build something else that is similar to the project that you just built. For example, if you just built a todo app, try to build a notes app or a reminder app.
 
-  - [ ] Here is a [simple blog design in figma](https://www.figma.com/file/nh0V05z3NB87ue9v5PcO3R/writings.dev?type=design&node-id=0%3A1&t=2iQplaIojU3ydAfW-1) that you can try to copy.
+  - [x] Here is a [simple blog design in figma](https://www.figma.com/file/nh0V05z3NB87ue9v5PcO3R/writings.dev?type=design&node-id=0%3A1&t=2iQplaIojU3ydAfW-1) that you can try to copy.
   ---
 
 - [x] JavaScript. ([JS Roadmap](https://roadmap.sh/javascript))
