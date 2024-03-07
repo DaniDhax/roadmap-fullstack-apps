@@ -152,12 +152,7 @@ btnRestar?.addEventListener('click', () => {
 
 
 
-
-
 const btnIgual: HTMLElement | null = document.getElementById('btnIgual')
 btnIgual?.addEventListener('click', () => {
-  console.log(1.5 + 1.5)
+  console.log('')
 })
-
-
-
