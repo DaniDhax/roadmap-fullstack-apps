@@ -1,5 +1,6 @@
 import './style.css'
 import dayjs from 'dayjs'
+import MicroModal from 'micromodal';
 
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
@@ -7,6 +8,7 @@ import timezone from 'dayjs/plugin/timezone'
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
+MicroModal.init();
 
 // ! Con la API nativa del navegador:
 //console.log(Date.now()) // * Devuelve: 1710234836379 (o la cadena correspondiente a la fecha en la que se ejecute este código).
@@ -29,6 +31,12 @@ dayjs.extend(timezone)
 
 const txtContenedor = document.getElementById('txtContenedor')
 
+// Event listener for opening the modal
+document.getElementById('openModalButton')?.addEventListener('click', () => {
+    MicroModal.show('timezoneModal');
+  });
+
+
 function render() {
     if (!txtContenedor) { return }
 
@@ -47,6 +55,8 @@ function render() {
 }
 
 render()
+
+
 
 
 

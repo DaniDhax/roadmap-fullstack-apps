@@ -10,10 +10,51 @@
     <link href="https://fonts.googleapis.com/css2?family=Lateef:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <title>Current Time</title>
   </head>
-  <body class="w-screen h-screen bg-slate-900 text-white flex items-center">
+  <body class="w-screen h-screen bg-slate-900 text-white flex flex-col items-center">
     <main class="w-80 h-40 border-2 border-white rounded-lg mx-auto my-auto flex flex-col items-center">
       <div id="txtContenedor" class="w-2/5 my-auto flex flex-col"></div>
     </main>
+
+
+
+
+
+
+
+
+
+    <button id="openModalButton">Open Modal</button>
+
+    <!-- Modal HTML -->
+    <div id="timezoneModal" class="modal micromodal-slide" aria-hidden="true">
+      <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+          <header class="modal__header">
+            <h2 class="modal__title" id="modal-title">Select Timezone</h2>
+            <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+          </header>
+          <main class="modal__content" id="modal-content">
+            <select id="timezoneSelect">
+              <option value="America/New_York">New York (EST)</option>
+              <option value="America/Los_Angeles">Los Angeles (PST)</option>
+              <option value="Europe/London">London (GMT)</option>
+              <option value="Asia/Tokyo">Tokyo (JST)</option>
+            </select>
+            <button id="selectTimezoneButton">Select</button>
+          </main>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
 
     <script type="module" src="/src/main.ts"></script>
   </body>
