@@ -8,7 +8,28 @@ import timezone from 'dayjs/plugin/timezone'
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
+
+
+
+// ! Micromodal ------------------------------------------------------------------------
 MicroModal.init();
+
+// Event listener for opening the modal
+document.getElementById('openModalButton')?.addEventListener('click', () => {
+    MicroModal.show('timezoneModal');
+  });
+
+
+  // ! --------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
 
 // ! Con la API nativa del navegador:
 //console.log(Date.now()) // * Devuelve: 1710234836379 (o la cadena correspondiente a la fecha en la que se ejecute este código).
@@ -31,10 +52,6 @@ MicroModal.init();
 
 const txtContenedor = document.getElementById('txtContenedor')
 
-// Event listener for opening the modal
-document.getElementById('openModalButton')?.addEventListener('click', () => {
-    MicroModal.show('timezoneModal');
-  });
 
 
 function render() {
