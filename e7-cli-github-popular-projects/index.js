@@ -21,7 +21,7 @@ rl.question("Fecha inicio (yyyy-mm-dd): ", async (varFechaInicio) => {
         }
 
     } catch (error) {
-        console.log('Se ha producido un error al buscar los datos de la API')
+        console.log('Se ha producido un error al buscar los datos de la API: ', error)
     }
     
     rl.close();
