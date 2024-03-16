@@ -1,0 +1,17 @@
+{
+  "name": "e9-cli-todoapp-sqlite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev": "node .",
+    "start": "node ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "prompt-sync": "^4.2.0",
+    "sqlite3": "^5.1.7"
+  }
+}
