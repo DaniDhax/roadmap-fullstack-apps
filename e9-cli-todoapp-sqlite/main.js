@@ -1,4 +1,4 @@
-const prompt = require("prompt-sync")();
+const readlineSync = require("readline-sync");
 const sqlite3 = require("sqlite3").verbose();
 
 // * Conexión a la base de datos SQLite:
@@ -18,17 +18,18 @@ const sqlite3 = require("sqlite3").verbose();
   });
 
 
-// Función para mostrar las tareas
+// * Función para mostrar las tareas
 async function showTasks() {
   db.each("SELECT * FROM tasks", (err, row) => {
     if (err) {
       console.error(err.message);
     }
     console.log(`${row.id}: ${row.task}`);
+    process.exit(0)
   });
 }
 
-// Función para agregar una nueva tarea
+// * Función para agregar una nueva tarea
 async function addTask(task) {
   db.run("INSERT INTO tasks (task) VALUES (?)", [task], function (err) {
     if (err) {
@@ -38,7 +39,7 @@ async function addTask(task) {
   });
 }
 
-// Función para borrar una tarea
+// * Función para borrar una tarea
 async function deleteTask(id) {
   db.run("DELETE FROM tasks WHERE id = ?", [id], function (err) {
     if (err) {
@@ -48,7 +49,7 @@ async function deleteTask(id) {
   });
 }
 
-// Función para actualizar una tarea
+// * Función para actualizar una tarea
 async function updateTask(id, newTask) {
   db.run("UPDATE tasks SET task = ? WHERE id = ?", [newTask, id], function (err) {
     if (err) {

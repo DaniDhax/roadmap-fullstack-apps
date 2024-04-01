@@ -1,4 +1,4 @@
-const prompt = require("prompt-sync")();
+const readlineSync = require("readline-sync");
 const fs = require("fs");
 
 const { showTasks, addTask, deleteTask, updateTask} = require('./main')
@@ -7,7 +7,7 @@ const { showTasks, addTask, deleteTask, updateTask} = require('./main')
 
 // * Verificar si el archivo de la base de datos existe:
 if (!fs.existsSync("tasks.db")) {
-  prompt(`La base de datos '${"tasks.db"}' no existe. (pulse Enter para terminar).`);
+  readlineSync.question(`La base de datos '${"tasks.db"}' no existe. (pulse Enter para terminar).`);
   process.exit(1); // * Salir del proceso con código de error
 } else {
     main()
@@ -25,7 +25,7 @@ async function main() {
     console.log("4. Borrar tarea");
     console.log("5. Salir\n");
 
-    const option = prompt("Opción: ");
+    const option = readlineSync.question("Opción: ");
 
     switch (option) {
       case "1":
@@ -33,16 +33,16 @@ async function main() {
         await showTasks();
         break;
       case "2":
-        const newTask = prompt("Ingrese la nueva tarea: ");
+        const newTask = readlineSync.question("Ingrese la nueva tarea: ");
         await addTask(newTask);
         break;
       case "3":
-        const taskId = prompt("Ingrese el ID de la tarea a actualizar: ");
-        const updatedTask = prompt("Ingrese la tarea actualizada: ");
+        const taskId = readlineSync.question("Ingrese el ID de la tarea a actualizar: ");
+        const updatedTask = readlineSync.question("Ingrese la tarea actualizada: ");
         await updateTask(taskId, updatedTask);
         break;
       case "4":
-        const taskToDelete = prompt("Ingrese el ID de la tarea a borrar: ");
+        const taskToDelete = readlineSync.question("Ingrese el ID de la tarea a borrar: ");
         await deleteTask(taskToDelete);
         break;
       case "5":
@@ -51,7 +51,7 @@ async function main() {
       default:
         console.log("Opción no válida.\n");
     }
-    prompt('Pulse Enter para continuar')
+    readlineSync.question('Pulse Enter para continuar')
   }
 }
 

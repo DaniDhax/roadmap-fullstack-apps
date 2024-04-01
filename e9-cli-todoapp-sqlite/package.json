@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "prompt-sync": "^4.2.0",
+    "readline-sync": "^1.4.10",
     "sqlite3": "^5.1.7"
   }
 }
