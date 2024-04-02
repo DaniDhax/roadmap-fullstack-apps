@@ -1,23 +1,13 @@
 const readlineSync = require("readline-sync");
-const fs = require("fs");
 
-const { showTasks, addTask, deleteTask, updateTask} = require('./main')
-
-// console.clear();
-
-// * Verificar si el archivo de la base de datos existe:
-if (!fs.existsSync("tasks.db")) {
-  readlineSync.question(`La base de datos '${"tasks.db"}' no existe. (pulse Enter para terminar).`);
-  process.exit(1); // * Salir del proceso con código de error
-} else {
-    main()
-}
+const { showTasks, addTask, deleteTask, updateTask } = require("./main");
 
 async function main() {
-  console.log("=== Aplicación de Lista de Tareas ===");
+  let exit = false;
 
-  // * mantener la aplicación en funcionamiento continuo hasta que el usuario decida salir explícitamente seleccionando la opción "Salir":
-  while (true) {
+  while (!exit) {
+    console.clear()
+    console.log("=== Aplicación de Lista de Tareas ===");
     console.log("\nSeleccione una opción:\n");
     console.log("1. Mostrar tareas");
     console.log("2. Agregar tarea");
@@ -29,7 +19,8 @@ async function main() {
 
     switch (option) {
       case "1":
-        console.log("\nTareas:"); // * El carácter de escape '\n' en la cadena de texto representa un salto de línea.
+        console.log('-----------------------------------------------------')
+        console.log("Tareas:"); 
         await showTasks();
         break;
       case "2":
@@ -47,12 +38,16 @@ async function main() {
         break;
       case "5":
         console.log("Saliendo...");
-        process.exit(0);
+        exit = true;
+        break;
       default:
         console.log("Opción no válida.\n");
     }
-    readlineSync.question('Pulse Enter para continuar')
+
+    if (!exit) {
+      readlineSync.question("\nPulse Enter para continuar");
+    }
   }
 }
 
-
+main()

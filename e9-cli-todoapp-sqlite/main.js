@@ -1,36 +1,85 @@
-const readlineSync = require("readline-sync");
 const sqlite3 = require("sqlite3").verbose();
 
-// * Conexión a la base de datos SQLite:
-  const db = new sqlite3.Database("tasks.db", (err) => {
-    if (err) {
-      console.error("Error al conectar con la base de datos:", err.message);
-      process.exit(1);
-    } else {
-      console.log("Conexión exitosa con la base de datos.");
+let db = null
 
-      // * Crear tabla si no existe.
-      // * El método db.serialize() sirve para asegurarse de que las consultas se ejecutan en orden secuencial y no de manera simultanea, dado que SQLite es una base de datos de un solo hilo, pero podrían existir múltiples consultas en cola.
-      db.serialize(() => {
-        db.run("CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, task TEXT)");
+process.on('uncaughtException', (err) => {
+  console.error('Excepción no capturada:', err);
+  // Aquí puedes realizar acciones como loggear el error, notificar a los usuarios, etc.
+  // Pero ten en cuenta que el estado del proceso podría ser inestable.
+});
+
+
+// * Conexión a la base de datos SQLite (se utliza el parámetro 'sqlite3.OPEN_READONLY' para que no cree un archivo 'tasks.db' en caso de que no exista)
+function conectarDB() {
+  return new Promise((resolve, reject) => {
+    db = new sqlite3.Database("tasks.db", sqlite3.OPEN_READONLY, (err) => {
+      if (err) {
+        console.error("Error al conectar con la base de datos:", err.message);
+        db = null
+        resolve(null)
+        // reject(err);  //Si rechazamos la promesa el proceso se termina.
+      } else {
+        // console.log("Conexión exitosa a la base de datos.");
+        resolve(db);
+      }
+    });
+  });
+}
+
+
+// Función para cerrar la conexión con la base de datos
+function cerrarConexion() {
+  return new Promise((resolve, reject) => {
+    if (db) {
+      db.close((err) => {
+        if (err) {
+          console.error('Error al cerrar la conexión con la base de datos:', err.message);
+          reject(err);
+        } else {
+          // console.log('Conexión cerrada con la base de datos.');
+          resolve(); // Resuelve la promesa después de cerrar la conexión
+        }
       });
+    } else {
+      console.log('No se encontró la conexión a la base de datos.');
+      resolve(); // Resuelve la promesa si no se encontró la conexión
     }
   });
+}
 
 
 // * Función para mostrar las tareas
 async function showTasks() {
-  db.each("SELECT * FROM tasks", (err, row) => {
-    if (err) {
-      console.error(err.message);
-    }
-    console.log(`${row.id}: ${row.task}`);
-    process.exit(0)
-  });
+
+    await conectarDB();
+
+    if (!db) { return }
+
+    return new Promise((resolve, reject) => {
+      db.each("SELECT * FROM tasks", (err, row) => {
+        if (err) {
+          console.error(err.message);
+          reject(err); // Si hay un error, rechaza la promesa
+        } else {
+          console.log(`${row.id}: ${row.task}`);
+        }
+      }, async () => {
+        // Después de mostrar todas las tareas, resolver la promesa y cerrar la conexión a la base de datos
+        resolve(await cerrarConexion())
+      });
+    });
+
 }
+
 
 // * Función para agregar una nueva tarea
 async function addTask(task) {
+  try {
+    
+  } catch (error) {
+    
+  }
+
   db.run("INSERT INTO tasks (task) VALUES (?)", [task], function (err) {
     if (err) {
       return console.error(err.message);
