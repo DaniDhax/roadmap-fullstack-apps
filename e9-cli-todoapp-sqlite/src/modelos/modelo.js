@@ -2,7 +2,7 @@ const sqlite3 = require("sqlite3").verbose();
 
 let db = null;
 
-// Función para conectar a la base de datos
+// * Conectar con la base de datos
 function conectarDB() {
   return new Promise((resolve, reject) => {
     db = new sqlite3.Database("tasks.db", sqlite3.OPEN_READWRITE, (err) => {
@@ -17,7 +17,7 @@ function conectarDB() {
   });
 }
 
-// Función para cerrar la conexión con la base de datos
+// * Cerrar la conexión con la base de datos
 function cerrarConexion() {
   return new Promise((resolve, reject) => {
     if (db) {
@@ -37,7 +37,7 @@ function cerrarConexion() {
   });
 }
 
-// Función para mostrar las tareas
+// * Mostrar todas las tareas
 async function showTasks() {
   try {
     await conectarDB();
@@ -56,7 +56,7 @@ async function showTasks() {
   }
 }
 
-// Función para agregar una nueva tarea
+// * Agregar una nueva tarea
 async function addTask(task) {
   try {
     await conectarDB();
@@ -76,7 +76,7 @@ async function addTask(task) {
   }
 }
 
-// Función para borrar una tarea
+// * Borrar una tarea
 async function deleteTask(id) {
   try {
     await conectarDB();
@@ -96,7 +96,7 @@ async function deleteTask(id) {
   }
 }
 
-// Función para actualizar una tarea
+// * Actualizar una tarea
 async function updateTask(id, newTask) {
   try {
     await conectarDB();
