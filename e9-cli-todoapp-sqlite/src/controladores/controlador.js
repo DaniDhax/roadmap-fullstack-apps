@@ -1,21 +1,12 @@
 const readlineSync = require("readline-sync");
 
-const { showTasks, addTask, deleteTask, updateTask } = require("./main");
+const { showTasks, addTask, deleteTask, updateTask } = require("./modelo");
 
 async function main() {
   let exit = false;
 
   while (!exit) {
-    console.clear()
-    console.log("=== Aplicación de Lista de Tareas ===");
-    console.log("\nSeleccione una opción:\n");
-    console.log("1. Mostrar tareas");
-    console.log("2. Agregar tarea");
-    console.log("3. Actualizar tarea");
-    console.log("4. Borrar tarea");
-    console.log("5. Salir\n");
-
-    const option = readlineSync.question("Opción: ");
+    const option = await mostrarMenu();
 
     switch (option) {
       case "1":
@@ -45,7 +36,7 @@ async function main() {
     }
 
     if (!exit) {
-      readlineSync.question("\nPulse Enter para continuar");
+      await esperarEnter();
     }
   }
 }

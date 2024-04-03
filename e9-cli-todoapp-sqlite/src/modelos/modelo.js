@@ -17,7 +17,7 @@ function conectarDB() {
         console.error("Error al conectar con la base de datos:", err.message);
         db = null
         resolve(null)
-        // reject(err);  //Si rechazamos la promesa el proceso se termina.
+        // reject(err);  // * Si rechazamos la promesa el proceso se termina.
       } else {
         // console.log("Conexión exitosa a la base de datos.");
         resolve(db);
@@ -27,7 +27,7 @@ function conectarDB() {
 }
 
 
-// Función para cerrar la conexión con la base de datos
+// * Función para cerrar la conexión con la base de datos
 function cerrarConexion() {
   return new Promise((resolve, reject) => {
     if (db) {
@@ -47,7 +47,6 @@ function cerrarConexion() {
   });
 }
 
-
 // * Función para mostrar las tareas
 async function showTasks() {
 
@@ -64,28 +63,33 @@ async function showTasks() {
           console.log(`${row.id}: ${row.task}`);
         }
       }, async () => {
-        // Después de mostrar todas las tareas, resolver la promesa y cerrar la conexión a la base de datos
+        // * Después de mostrar todas las tareas, resolver la promesa y cerrar la conexión a la base de datos
         resolve(await cerrarConexion())
       });
     });
-
 }
 
 
 // * Función para agregar una nueva tarea
 async function addTask(task) {
-  try {
-    
-  } catch (error) {
-    
-  }
 
-  db.run("INSERT INTO tasks (task) VALUES (?)", [task], function (err) {
-    if (err) {
-      return console.error(err.message);
-    }
-    console.log(`Nueva tarea añadida con ID ${this.lastID}`);
-  });
+  await conectarDB();
+
+  if (!db) { return }
+
+
+  return new Promise ((resolve, reject) => {
+    
+    db.run("INSERT INTO tasks (task) VALUES (?)", [task], function (err) {
+      if (err) {
+        return console.error("Error al añadir la tarea: " + err.message);
+      } else {
+        console.log(`Nueva tarea añadida con ID ${this.lastID}`);
+      }
+      resolve()
+    });
+  })
+
 }
 
 // * Función para borrar una tarea
