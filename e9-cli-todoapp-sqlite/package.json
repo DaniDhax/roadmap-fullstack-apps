@@ -2,10 +2,10 @@
   "name": "e9-cli-todoapp-sqlite",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "controlador.js",
   "scripts": {
-    "dev": "node .",
-    "start": "node ."
+    "dev": "node ./src/controladores/controlador.js",
+    "start": "node ./src/controladores/controlador.js"
   },
   "keywords": [],
   "author": "",
