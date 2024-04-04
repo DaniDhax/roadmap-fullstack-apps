@@ -2,10 +2,11 @@
   "name": "e9-cli-todoapp-sqlite",
   "version": "1.0.0",
   "description": "",
-  "main": "controlador.js",
+  "main": "./src/vistas/vista.js",
   "scripts": {
-    "dev": "node ./src/controladores/controlador.js",
-    "start": "node ./src/controladores/controlador.js"
+    "dev": "node .",
+    "start": "node .",
+    "debug" : "node --inspect-brk src/vistas/vista.js"
   },
   "keywords": [],
   "author": "",

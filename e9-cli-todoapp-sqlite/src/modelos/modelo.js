@@ -66,8 +66,7 @@ async function addTask(task) {
           console.error("Error al añadir la tarea:", err.message);
           reject(err);
         } else {
-          console.log(`Nueva tarea añadida con ID ${this.lastID}`);
-          resolve();
+          resolve(this.lastID);
         }
       });
     });
