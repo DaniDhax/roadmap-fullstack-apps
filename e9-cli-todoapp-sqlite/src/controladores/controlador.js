@@ -1,46 +1,51 @@
 const readlineSync = require("readline-sync");
 const { showTasks, addTask, deleteTask, updateTask } = require("../modelos/modelo.js");
 
+let exito = false
+
 async function manejarSolicitud({ opcion, idTarea = null, nombreTarea = null }) {
-
   switch (opcion) {
-
     case "recuperarTodas":
       try {
         const tasks = await showTasks();
-        return (tasks)
+        return tasks;
       } catch (error) {
         console.error("Error al mostrar las tareas:", error.message);
-        return (null)
+        return null;
       }
 
     case "agregarTarea":
       try {
         const idTarea = await addTask(nombreTarea);
-        return(idTarea)
+        return idTarea;
       } catch (error) {
-        return(null)
+        return null;
+      }
+
+    case "eliminarTarea":
+      try {
+        exito = await deleteTask(idTarea);
+        if (!exito) {
+          return false;
+        } else {
+          return true;
+        }
+      } catch (error) {
+        return false;
       }
 
     case "actualizarTarea":
-      const taskId = readlineSync.question("Ingrese el ID de la tarea a actualizar: ");
-      const updatedTask = readlineSync.question("Ingrese la tarea actualizada: ");
       try {
-        await updateTask(taskId, updatedTask);
-        console.log("Tarea actualizada correctamente");
+        exito = await updateTask(idTarea, nombreTarea);
+        if (!exito) {
+          return false;
+        } else {
+          return true;
+        }
       } catch (error) {
-        console.error("Error al actualizar la tarea:", error.message);
+        return false;
       }
-      
-    case "eliminarTarea":
-      
-      try {
-        await deleteTask(idTarea);
-        return("Exito");
-      } catch (error) {
-        return(null)
-      }
-    }
+  }
 }
 
 module.exports = { manejarSolicitud };

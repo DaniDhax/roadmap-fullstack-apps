@@ -66,7 +66,7 @@ async function addTask(task) {
           console.error("Error al añadir la tarea:", err.message);
           reject(err);
         } else {
-          resolve(this.lastID);
+          resolve(this.lastID); // * 'this' se refiere al OBJETO de nombre 'Statement' devuelto por 'db.run()', que representa la consulta ejecutada en la base de datos. Este objeto tiene la propiedad 'lastID'. 
         }
       });
     });
@@ -75,18 +75,38 @@ async function addTask(task) {
   }
 }
 
-// * Borrar una tarea
+// * Borrar una tarea:
 async function deleteTask(id) {
   try {
     await conectarDB();
+
+    // * Comprobar si la tarea existe:
+    const taskExists = await new Promise((resolve, reject) => {
+      db.get("SELECT id FROM tasks WHERE id = ?", [id], (err, row) => {
+        if (err) {
+          console.error("Error al verificar la existencia de la tarea:", err.message);
+          reject(err);
+        } else {
+          if (!row) {
+            resolve(null)
+          }
+          resolve(!!row); // * Retorna true si la tarea existe, false si no existe
+        }
+      });
+    });
+
+    if (!taskExists) {
+      console.error("La tarea con el ID proporcionado no existe.");
+      return (false); // Termina la función sin intentar eliminar la tarea inexistente
+    } 
+
     return new Promise((resolve, reject) => {
       db.run("DELETE FROM tasks WHERE id = ?", [id], function (err) {
         if (err) {
           console.error("Error al eliminar la tarea:", err.message);
           reject(err);
         } else {
-          console.log(`Tarea con ID ${id} eliminada`);
-          resolve();
+          resolve(true);
         }
       });
     });
@@ -99,14 +119,35 @@ async function deleteTask(id) {
 async function updateTask(id, newTask) {
   try {
     await conectarDB();
+
+    // * Comprobar si la tarea existe:
+    const taskExists = await new Promise((resolve, reject) => {
+      db.get("SELECT id FROM tasks WHERE id = ?", [id], (err, row) => {
+        if (err) {
+          console.error("Error al verificar la existencia de la tarea:", err.message);
+          reject(err);
+        } else {
+          if (!row) {
+            resolve(null)
+          }
+          resolve(!!row); // * Retorna true si la tarea existe, false si no existe
+        }
+      });
+    });
+
+    if (!taskExists) {
+      console.error("La tarea con el ID proporcionado no existe.");
+      return (false); // Termina la función sin intentar eliminar la tarea inexistente
+    } 
+
+
     return new Promise((resolve, reject) => {
       db.run("UPDATE tasks SET task = ? WHERE id = ?", [newTask, id], function (err) {
         if (err) {
           console.error("Error al actualizar la tarea:", err.message);
           reject(err);
         } else {
-          console.log(`Tarea con ID ${id} actualizada`);
-          resolve();
+          resolve(true);
         }
       });
     });

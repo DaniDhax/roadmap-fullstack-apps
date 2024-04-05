@@ -13,6 +13,22 @@ function cambiarPaginaDeCodigos() {
 
 cambiarPaginaDeCodigos();
 
+async function mostrarTodas() {
+  const tasks = await manejarSolicitud({ opcion: "recuperarTodas" });
+  if (!tasks) {
+    console.log("Error al recuperar las tareas");
+    process.exit(0);
+  }
+
+  console.log("\n-----------------------------------------------------");
+  console.log("ID    Tareas:");
+  console.log("-----------------------------------------------------");
+
+  tasks.forEach((task) => {
+    console.log(`${task.id}.    ${task.task}`);
+  });
+}
+
 async function mostrarMenu() {
   let exit = false;
 
@@ -27,23 +43,12 @@ async function mostrarMenu() {
     console.log("5. Salir\n");
 
     const opcion = readlineSync.question("Opción: ");
+    let resultado = false;
 
     switch (opcion) {
       // * Mostrar todas las tareas:
       case "1":
-        const tasks = await manejarSolicitud({ opcion: "recuperarTodas" });
-        if (!tasks) {
-          console.log("Error al recuperar las tareas");
-          process.exit(0);
-        }
-
-        console.log("-----------------------------------------------------");
-        console.log("Tareas:");
-
-        tasks.forEach((task) => {
-          console.log(`${task.id}: ${task.task}`);
-        });
-
+        await mostrarTodas();
         break;
 
       // * Añadir tarea:
@@ -59,19 +64,36 @@ async function mostrarMenu() {
 
       // * Eliminar una tarea:
       case "3":
-        const idTaskToDelete = parseInt(readlineSync.question("Ingrese el ID de la tarea a eliminar: "));
-        const resultado = await manejarSolicitud({ opcion: "eliminarTarea", idTarea: idTaskToDelete });
+        // * Mostrar las tareas al usuario:
+        await mostrarTodas();
+
+        // * Preguntar cual de ellas quiere eliminar:
+        const idTaskToDelete = parseInt(readlineSync.question("\nIngrese el ID de la tarea a eliminar: "));
+        resultado = await manejarSolicitud({ opcion: "eliminarTarea", idTarea: idTaskToDelete });
         if (!resultado) {
-          console.error(`Error al eliminar la tarea ${resultado}`);
+          console.error(`Error al eliminar la tarea ${idTaskToDelete}.`);
+        } else {
+          console.log(`Tarea con ID ${idTaskToDelete} eliminada con éxito.`);
         }
-        console.log(`Tarea ${resultado} eliminada con éxito`);
 
         break;
 
       // * Actualizar tarea:
       case "4":
+        // * Mostrar las tareas al usuario:
+        await mostrarTodas();
+
+        // * Preguntar la tarea a actualizar:
+        const idTaskToUpdate = readlineSync.question("\nIngrese el ID de la tarea a actualizar: ");
+        const updatedTask = readlineSync.question("Ingrese la tarea actualizada: ");
+        resultado = await manejarSolicitud({ opcion: "actualizarTarea", idTarea: idTaskToUpdate, nombreTarea: updatedTask });
+        if (!resultado) {
+          console.error(`Error al actualizar la tarea ${idTaskToUpdate}.`);
+        } else {
+          console.log(`Tarea con ID ${idTaskToUpdate} actualizada con éxito.`);
+        }
         break;
-        
+
       // * Salir:
       case "5":
         console.log("Saliendo...");
@@ -83,7 +105,7 @@ async function mostrarMenu() {
     }
 
     if (!exit) {
-      readlineSync.question("\nPulse Enter para continuar");
+      readlineSync.question("\nPulse Enter para continuar...");
     }
   }
 }
