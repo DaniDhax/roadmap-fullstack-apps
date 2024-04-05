@@ -1,4 +1,3 @@
-const readlineSync = require("readline-sync");
 const { showTasks, addTask, deleteTask, updateTask } = require("../modelos/modelo.js");
 
 let exito = false
